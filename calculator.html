@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mpho's Calculator App</title>
+  <link rel="stylesheet" type="text/css" href="style.css">  
+</head>
+<body>
+  <div class="Calculator-container"></div>
+  <table border="1">
+    <tr>
+      <td colspan="4">
+        <input type="text" id="inputBox" value="0" disabled />
+      </td>
+    </tr>
+    <tr>
+      <td class="ACButton" onclick="btnACPressed()">AC</td>
+      <td class="functionButton" onclick="sqrtBtnPressed()">√</td>
+      <td class="functionButton" onclick="percentBtnPressed()">%</td>
+      <td class="operatorButton" onclick="operatorBtnPressed('/')">/</td>
+    </tr>
+    <tr>
+      <td class="digitButton" onclick="digitBtnPressed('7')">7</td>
+      <td class="digitButton" onclick="digitBtnPressed('8')">8</td>
+      <td class="digitButton" onclick="digitBtnPressed('9')">9</td>
+       <td class="operatorButton" onclick="operatorBtnPressed('*')">*</td>
+    </tr>
+    <tr>
+      <td class="digitButton" onclick="digitBtnPressed('4')">4</td>
+      <td class="digitButton" onclick="digitBtnPressed('5')">5</td>
+      <td class="digitButton" onclick="digitBtnPressed('6')">6</td>
+      <td class="operatorButton" onclick="operatorBtnPressed('-')">-</td>
+    </tr>
+    <tr>
+      <td class="digitButton" onclick="digitBtnPressed('1')">1</td>
+      <td class="digitButton" onclick="digitBtnPressed('2')">2</td>
+      <td class="digitButton" onclick="digitBtnPressed('3')">3</td>
+      <td class="operatorButton" onclick="operatorBtnPressed('+')">+</td>
+    </tr>
+    <tr>
+      <td class="digitButton" onclick="digitBtnPressed('0')">0</td>
+      <td class="digitButton" onclick="digitBtnPressed('.')">.</td>
+      <td class="DELButton" onclick="btnDELPressed()">DEL</td>
+      <td class="operatorButton" onclick="equalsBtnPressed()">=</td> 
+    </tr>
+  </table>  
+
+  <script>
+    var newLine = true;
+    var value1 = 0;
+    var currentOperator = "";
+
+    function digitBtnPressed(button) {
+      const input = document.getElementById("inputBox");
+      if (newLine) {
+        input.value = button;
+        newLine = false;
+      } else {
+        input.value += button;
+      }
+    }
+
+    function btnACPressed() {
+      document.getElementById("inputBox").value = "0";
+      value1 = 0;
+      currentOperator = "";
+      newLine = true;
+    }
+    function btnDELPressed() {
+      var inputBox = document.getElementById("inputBox");
+      if (inputBox.value.length > 1) {
+      inputBox.value = inputBox.value.slice(0, -1);
+      } else {
+      inputBox.value = "0";
+      newLine = true;
+      }
+    }
+
+    function percentBtnPressed() {
+      var inputBox = document.getElementById("inputBox");
+      var value = parseFloat(inputBox.value);
+      inputBox.value = value / 100;
+      newLine = true;
+    }
+
+    function sqrtBtnPressed() {
+      var inputBox = document.getElementById("inputBox");
+      var value = parseFloat(inputBox.value);
+      if (value < 0) {
+      inputBox.value = "Error";
+      } else {
+      inputBox.value = Math.sqrt(value);
+      }
+      newLine = true;
+    }
+
+    function operatorBtnPressed(operator) {
+      value1 = parseFloat(document.getElementById("inputBox").value); // fixed variable name
+      currentOperator = operator;
+      newLine = true;
+    }
+
+    function equalsBtnPressed() {
+      var value2 = parseFloat(document.getElementById("inputBox").value);
+      var finalTotal = 0;
+
+      switch (currentOperator) {
+        case "+":
+          finalTotal = value1 + value2;
+          break;
+        case "-":
+          finalTotal = value1 - value2;
+          break;
+        case "*":
+          finalTotal = value1 * value2;
+          break;
+        case "/":
+          finalTotal = value1 / value2;
+          break;
+        default:
+          finalTotal = value2;
+      }
+
+      document.getElementById("inputBox").value = finalTotal;
+      newLine = true;
+      value1 = finalTotal;
+    }
+  </script>
+</body>
+</html>
